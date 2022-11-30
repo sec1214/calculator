@@ -34,3 +34,7 @@ button:active {
   background-color: red;
   color: white;
 }
+
+#display {
+  background-color: aqua;
+}
