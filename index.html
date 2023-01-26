@@ -1,46 +1,65 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="styles.css" />
-    <title>Document</title>
-  </head>
-  <body>
+    <script src="calculator.js" defer></script>
+    <title>Calculator Practice 2</title>
+</head>
+<body>
+<div class="wrapper">
+ 
+  <div class="header">Calculator Project</div>
 
-    <div class="wrapper">
-      <div class="calc_wrapper">
-        <div class="input_container">
-          <input id="display" class="grid-item" value="" disabled/>
+
+
+<div class="calculator-wrapper">
+  <div class="calculator">
+        <div class="calculator-screen">
+            <input type="text" id="previousOperand" value="" disabled/>
+            <input type="text" id="operator" value="" disabled/>
+             <input type="text" id="operand_test" value="" disabled/> 
+            <input type="text" id="operand" value="" disabled/>
         </div>
-        <div class="clear_delete_contaienr">
-          <button id="clear" class="grid-item">CLEAR</button>
-          <button id="delete" class="grid-item">DEL</button>
-        </div>
-        <div class="grid-container">
-          <button id="seven" class="grid-item-num">7</button>
-          <button id="eight" class="grid-item-num">8</button>
-          <button id="nine"class="grid-item-num">9</button>
-          <button id="divide"class="grid-item">÷</button>
+<div class="calculator-keys">
 
-          <button id="four"class="grid-item-num">4</button>
-          <button id="five" class="grid-item-num">5</buton>
-          <button id="six"class="grid-item-num">6</button>
-          <button id="multiply" class="grid-item">x</button>
+  <button type="button" class="operator" data-operator value="+">+</button>
+  <button type="button" class="operator" data-operator value="-">-</button>
+  <button type="button" class="operator" data-operator value="*">&times;</button>
+  <button type="button" class="operator" data-operator value="/">&divide;</button>
+    
+  <button type="button" class="number" data-num-btn value="7">7</button>
+  <button type="button" class="number" data-num-btn value="8">8</button>
+  <button type="button" class="number" data-num-btn value="9">9</button>
+  <button type="button" class="delete" data-delete value="del">del</button>
+  <button type="button" class="number" data-num-btn value="4">4</button>
+  <button type="button" class="number" data-num-btn value="5">5</button>
+  <button type="button" class="number" data-num-btn value="6">6</button>
+  <button type="button" class="number" data-num-btn value="1">1</button>
+  <button type="button" class="number" data-num-btn value="2">2</button>
+  <button type="button" class="number" data-num-btn value="3">3</button>
+  <button type="button" class="number" data-num-btn value="0">0</button>
 
-          <button id="one"class="grid-item-num">1</buttonn>
-          <button id="two"class="grid-item-num">2</button>
-          <button id="three"class="grid-item-num">3</button>
-          <button id="subtract"class="grid-item">-</buton>
+  <button type="button" class="decimal" data-decimal-btn value=".">.</button>
+  <button type="button" class="all-clear" data-all-clear value="AC">AC</button>
 
-          <button id="decimal"class="grid-item-num">.</button>
-          <button id="zero"class="grid-item-num">0</button>
-          <button id="equal"class="grid-item">&#61</button>
-          <button id="add" class="grid-item">+</button>
-        </div>
-      </div>
-    </div>
-    <script type="text/javascript" src="calculator.js"></script>
-  </body>
+  <button type="button" class="equal-sign" data-equal-btn value="=">&#61</button>
+  
+ </div> 
+</div>
+</div>
+
+<div class="footer-2">
+  Powered by
+  <img
+    class="image"
+    src="https://www.theodinproject.com/mstile-310x310.png"
+  />
+</div>
+</div>
+</body>
+
 </html>
+

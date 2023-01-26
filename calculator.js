@@ -1,121 +1,248 @@
-let currentNum = "";
-let previousNum = "";
-let sum = "";
-let numBtns = document.getElementsByClassName("grid-item-num");
+let displayOperand = document.querySelector("#operand");
 
-let clearBtn = document.getElementById("clear");
-let deleteBtn = document.getElementById("delete");
-let sevenBtn = document.getElementById("seven");
-let eightBtn = document.getElementById("eight");
-let nineBtn = document.getElementById("nine");
-let divideBtn = document.getElementById("divide");
-let fourBtn = document.getElementById("four");
-let fiveBtn = document.getElementById("five");
-let sixBtn = document.getElementById("six");
-let multiplynBtn = document.getElementById("multiply");
-let oneBtn = document.getElementById("one");
-let twoBtn = document.getElementById("two");
-let threeBtn = document.getElementById("three");
-let subtractBtn = document.getElementById("subtract");
-let decimalBtn = document.getElementById("decimal");
-let zeroBtn = document.getElementById("zero");
-let equalBtn = document.getElementById("equal");
-let addBtn = document.getElementById("add");
+// let displayOperandTest = document.querySelector("#operand_test");
 
-const calculator = {
-  displayValue: "0",
-  firstOperand: null,
-  waitingForSecondOperand: false,
+let displayOperator = document.querySelector("#operator");
+let displayPreviousOperand = document.querySelector("#previousOperand");
+const btnOperatorInput = document.querySelectorAll("[data-operator]");
+const btnNumberInput = document.querySelectorAll("[data-num-btn]");
+const equalBtn = document.querySelector("[data-equal-btn]");
+const allClearBtn = document.querySelector("[data-all-clear]");
+const decimalBtn = document.querySelector("[data-decimal-btn]");
+const delBtn = document.querySelector("[data-delete]");
+
+const calculatorConstructor = {
+  operand: "0",
+  previousOperand: null,
   operator: null,
 };
 
 function updateDisplay() {
-  let display = document.getElementById("display");
-  display = calculator.displayValue;
+  // displayOperandTest.value = calculatorConstructor.operand;
+  displayOperand.value = calculatorConstructor.operand;
+  displayOperator.value = calculatorConstructor.operator;
+  displayPreviousOperand.value = calculatorConstructor.previousOperand;
 }
 
-function updateDisplay() {
-  //need to select element with class .calculatorScreen
-  const display = document.getElementById("display");
-  display.value = calculator.displayValue;
-}
+btnNumberInput.forEach((btn) => {
+  btn.addEventListener("click", (calcBtn) => {
+    //pass in the value of the button pressed into new varialbe
+    let btnValue = calcBtn.target.value;
 
-function displayValue(value) {}
+    //display that value on the screen
+    //if equal to 0 replace with digit
+    if (displayOperand.value === "0") {
+      displayOperand.value = btnValue;
+      //if not equal to zero append number
+    } else if (displayOperand.value != "0") {
+      let numCombined = (displayOperand.value =
+        displayOperand.value + btnValue);
 
-updateDisplay();
+      //console.log(numCombined);
+      let numFormatted = getDisplayNumber(numCombined);
+      // console.log(numFormatted);
 
-clearBtn.addEventListener("click", function () {
-  calculator.displayValue = "";
-  calculator.firstOperand = "";
-  calculator.waitingForSecondOperand = false;
-  calculator.operator = null;
-  console.log(calculator);
+      displayOperand.value = numFormatted;
+    }
+  });
 });
 
-deleteBtn.addEventListener("click", function () {
-  let numStr = display.value.slice(0, -1);
-  display.value = numStr;
-});
+//goal: to take the number variable and break it into commas
+//input: number
+//output: number broken up into numbers with commas in appropriate places
+//if length is greater than 3 every three numbers add a comma
 
-zeroBtn.addEventListener("click", function () {
-  display.value += 0;
-});
-
-oneBtn.addEventListener("click", function (num) {
-  if(display.value === 0){
-    num = display.innerHTML
-    display.value = num 
+decimalBtn.addEventListener("click", function () {
+  if (!displayOperand.value.includes(".")) {
+    displayOperand.value = displayOperand.value + ".";
+  } else {
+    return;
   }
-  display.value = num 
 });
 
-twoBtn.addEventListener("click", function () {
-  display.value += 2;
+allClearBtn.addEventListener("click", function () {
+  displayPreviousOperand.value = "";
+  displayOperator.value = "";
+  displayOperand.value = "0";
 });
 
-threeBtn.addEventListener("click", function () {
-  display.value += 3;
-});
+btnOperatorInput.forEach((btn) => {
+  btn.addEventListener("click", (calcBtn) => {
+    let btnValue = calcBtn.target.value;
 
-fourBtn.addEventListener("click", function () {
-  display.value += 4;
-});
+    if (
+      displayPreviousOperand.value != "" &&
+      displayOperator.value === "" &&
+      displayOperand.value != ""
+    ) {
+      displayOperator.value = btnValue;
+      return;
+    }
 
-fiveBtn.addEventListener("click", function () {
-  display.value += 5;
-});
+    if (
+      displayPreviousOperand.value != "" &&
+      displayOperator.value != "" &&
+      displayOperand.value != ""
+    ) {
+      handlingOperator(
+        displayPreviousOperand.value,
+        displayOperator.value,
+        displayOperand.value
+      );
+      displayOperand.value = "0";
+      displayOperator.value = btnValue;
+      return;
+    }
 
-sixBtn.addEventListener("click", function () {
-  display.value += 6;
-});
-
-sevenBtn.addEventListener("click", function () {
-  display.value += 7;
-});
-
-eightBtn.addEventListener("click", function () {
-  display.value += 8;
-});
-
-nineBtn.addEventListener("click", function () {
-  display.value += 9;
-});
-
-addBtn.addEventListener("click", function () {
-  console.log(display.innerHTML);
-  currentNum = display.innerHTML;
-  previousNum = currentNum;
-  display.innerHTML = "";
-  currentNum = 0;
-  sum = parseInt(currentNum) + parseInt(previousNum);
-  //display.innerHTML = sum;
+    if (displayOperand.value != "") {
+      displayOperator.value = btnValue;
+      displayPreviousOperand.value = displayOperand.value;
+      displayOperand.value = "0";
+      return;
+    } else {
+      return;
+    }
+  });
 });
 
 equalBtn.addEventListener("click", function () {
-  currentNum = display.innerHTML;
-  console.log("currentNum " + currentNum);
-  console.log("previousNum " + previousNum);
-  sum = parseInt(currentNum) + parseInt(previousNum);
-  display.innerHTML = sum;
-  console.log("sum " + sum);
+  if (
+    displayPreviousOperand.value != "" &&
+    displayOperator.value != "" &&
+    displayOperand.value != ""
+  ) {
+    handlingOperator(
+      displayPreviousOperand.value,
+      displayOperator.value,
+      displayOperand.value
+    );
+    displayOperator.value = "";
+    displayOperand.value = "0";
+  } else {
+    return;
+  }
 });
+
+//goal: to delete one space at a time when pressed, if 0 return
+//input: number in displayOperand.value
+//output: number in displayOperand.value -1;
+
+delBtn.addEventListener("click", function () {
+  if (displayOperand.value === "0") {
+    return;
+  } else {
+    let deleteNum = displayOperand.value.slice(0, -1);
+    let numberFormatted = getDisplayNumber(deleteNum);
+    displayOperand.value = numberFormatted;
+    return;
+  }
+});
+
+function handlingOperator(
+  previousOperandWithComma,
+  operator,
+  operandWithComma
+) {
+  let previousOperand = checkForCommas(previousOperandWithComma);
+  let operand = checkForCommas(operandWithComma);
+
+  if (operator === "+") {
+    //i don't think you need to pass in .value because already there
+
+    let sum = parseFloat(previousOperand) + parseFloat(operand);
+    let number = parseFloat(sum);
+    let numberWithComma = getDisplayNumber2(number);
+    displayPreviousOperand.value = numberWithComma;
+    return;
+  }
+  if (operator === "-") {
+    //i don't think you need to pass in .value because already there
+    let sum = parseFloat(previousOperand) - parseFloat(operand);
+    let number = parseFloat(sum);
+    let numberWithComma = getDisplayNumber2(number);
+    displayPreviousOperand.value = numberWithComma;
+    return;
+  }
+  if (operator === "*") {
+    //i don't think you need to pass in .value because already there
+    let sum = parseFloat(previousOperand) * parseFloat(operand);
+    let number = parseFloat(sum);
+    let numberWithComma = getDisplayNumber2(number);
+    displayPreviousOperand.value = numberWithComma;
+    return;
+  }
+  if (operator === "/") {
+    //i don't think you need to pass in .value because already there
+    let sum = parseFloat(previousOperand) / parseFloat(operand);
+    let number = parseFloat(sum);
+    let numberWithComma = getDisplayNumber2(number);
+    displayPreviousOperand.value = numberWithComma;
+    return;
+  }
+}
+
+//goal: take in number from displayOperand.value and every number that is over three integers add a comma
+//input: displayOperand.value + btnCalc.value
+//output:  the collective number displayed on displayOperand.value with a comma inserted after every number with
+//three intergers behind it
+
+// function numberWithCommas(num) {
+//   let numWithComma = parseFloat(num).toLocaleString("us-En");
+//   displayOperand.value = numWithComma;
+//   console.log(numWithComma);
+// }
+
+function getDisplayNumber(numberWithComma) {
+  let number = checkForCommas(numberWithComma);
+  const stringNumber = number.toString();
+  const integerDigits = parseFloat(stringNumber.split(".")[0]);
+  const decimalDigits = stringNumber.split(".")[1];
+  let integerDisplay;
+  if (isNaN(integerDigits)) {
+    integerDisplay = "";
+  } else {
+    integerDisplay = integerDigits.toLocaleString("en", {
+      maximumFractionDigits: 0,
+    });
+  }
+  if (decimalDigits != null) {
+    return `${integerDisplay}.${decimalDigits}`;
+  } else {
+    return integerDisplay;
+  }
+}
+
+function getDisplayNumber2(number) {
+  const stringNumber = number.toString();
+  const integerDigits = parseFloat(stringNumber.split(".")[0]);
+  const decimalDigits = stringNumber.split(".")[1];
+  let integerDisplay;
+  if (isNaN(integerDigits)) {
+    integerDisplay = "";
+  } else {
+    integerDisplay = integerDigits.toLocaleString("en", {
+      maximumFractionDigits: 0,
+    });
+  }
+  if (decimalDigits != null) {
+    return `${integerDisplay}.${decimalDigits}`;
+  } else {
+    return integerDisplay;
+  }
+}
+
+//goal: check to see if there are commas in the number
+//if there are commas in the number, break the number into an array, take out the commas, and join
+//back together
+//input: number(withcommas)
+//output: number without commas
+
+function checkForCommas(number) {
+  let numWithOutComma = number.replaceAll(/,/g, "");
+  console.log(numWithOutComma);
+  return numWithOutComma;
+}
+
+//checkForCommas("7,777,777");
+
+//updateDisplay();
