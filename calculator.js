@@ -1,8 +1,8 @@
 let currentNum = "";
 let previousNum = "";
 let sum = "";
+let numBtns = document.getElementsByClassName("grid-item-num");
 
-let display = document.getElementById("display");
 let clearBtn = document.getElementById("clear");
 let deleteBtn = document.getElementById("delete");
 let sevenBtn = document.getElementById("seven");
@@ -22,92 +22,100 @@ let zeroBtn = document.getElementById("zero");
 let equalBtn = document.getElementById("equal");
 let addBtn = document.getElementById("add");
 
-display.innerHTML = "";
+const calculator = {
+  displayValue: "0",
+  firstOperand: null,
+  waitingForSecondOperand: false,
+  operator: null,
+};
+
+function updateDisplay() {
+  let display = document.getElementById("display");
+  display = calculator.displayValue;
+}
+
+function updateDisplay() {
+  //need to select element with class .calculatorScreen
+  const display = document.getElementById("display");
+  display.value = calculator.displayValue;
+}
+
+function displayValue(value) {}
+
+updateDisplay();
 
 clearBtn.addEventListener("click", function () {
-  display.innerHTML = "";
+  calculator.displayValue = "";
+  calculator.firstOperand = "";
+  calculator.waitingForSecondOperand = false;
+  calculator.operator = null;
+  console.log(calculator);
 });
 
 deleteBtn.addEventListener("click", function () {
-  let numStr = display.innerHTML.slice(0, -1);
-  display.innerHTML = numStr;
+  let numStr = display.value.slice(0, -1);
+  display.value = numStr;
 });
 
 zeroBtn.addEventListener("click", function () {
-  display.innerHTML += 0;
+  display.value += 0;
 });
 
-oneBtn.addEventListener("click", function () {
-  display.innerHTML += 1;
+oneBtn.addEventListener("click", function (num) {
+  if(display.value === 0){
+    num = display.innerHTML
+    display.value = num 
+  }
+  display.value = num 
 });
 
 twoBtn.addEventListener("click", function () {
-  display.innerHTML += 2;
+  display.value += 2;
 });
 
 threeBtn.addEventListener("click", function () {
-  display.innerHTML += 3;
+  display.value += 3;
 });
 
 fourBtn.addEventListener("click", function () {
-  display.innerHTML += 4;
+  display.value += 4;
 });
 
 fiveBtn.addEventListener("click", function () {
-  display.innerHTML += 5;
+  display.value += 5;
 });
 
 sixBtn.addEventListener("click", function () {
-  display.innerHTML += 6;
+  display.value += 6;
 });
 
 sevenBtn.addEventListener("click", function () {
-  display.innerHTML += 7;
+  display.value += 7;
 });
 
 eightBtn.addEventListener("click", function () {
-  display.innerHTML += 8;
+  display.value += 8;
 });
 
 nineBtn.addEventListener("click", function () {
-  display.innerHTML += 9;
+  display.value += 9;
 });
 
-// addBtn.addEventListener("click", function () {
-//   display.innerHTML += "+";
-// });
+addBtn.addEventListener("click", function () {
+  console.log(display.innerHTML);
+  currentNum = display.innerHTML;
+  previousNum = currentNum;
+  display.innerHTML = "";
+  currentNum = 0;
+  sum = parseInt(currentNum) + parseInt(previousNum);
+  //display.innerHTML = sum;
+});
 
-// equalBtn.addEventListener("click", function () {
-//   display.innerHTML += "&#61";
-// });
-
-if (
-  addBtn.addEventListener("click", function () {
-    currentNum = display.innerHTML;
-    previousNum = currentNum;
-    console.log("currentNum " + currentNum);
-    currentNum = "";
-    console.log("currentNum " + currentNum);
-    display.innerHTML = "";
-    console.log("previousNum " + previousNum);
-  })
-);
-
-if (
-  equalBtn.addEventListener("click", function () {
-    currentNum = display.innerHTML;
-    console.log("currentNum " + currentNum);
-    console.log("previousNum " + previousNum);
-    sum = parseInt(currentNum) + parseInt(previousNum);
-    console.log("sum " + sum);
-  })
-);
-
-// function operate() {
-//   if (addBtn.addEventListener === true) {
-//     firstNum = display.innerHTML;
-//     display.innerHTML = "";
-//     firstNum += firstNum;
-//     console.log(firstNum);
-//   }
-// }
+equalBtn.addEventListener("click", function () {
+  currentNum = display.innerHTML;
+  console.log("currentNum " + currentNum);
+  console.log("previousNum " + previousNum);
+  sum = parseInt(currentNum) + parseInt(previousNum);
+  display.innerHTML = sum;
+  console.log("sum " + sum);
+});
