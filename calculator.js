@@ -243,6 +243,4 @@ function checkForCommas(number) {
   return numWithOutComma;
 }
 
-//checkForCommas("7,777,777");
-
-//updateDisplay();
+updateDisplay();
